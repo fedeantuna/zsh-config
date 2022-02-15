@@ -1,4 +1,8 @@
-# .zshrc on ~/
+# Config
+
+The content of this repository goes into ~/.config/zsh/
+
+## .zshrc on ~/
 
 ```
 [ -f "$HOME/.config/zsh/z-rc" ] && source $HOME/.config/zsh/z-rc
