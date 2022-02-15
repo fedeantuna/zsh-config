@@ -1,0 +1,10 @@
+HISTFILE=$HOME/.histfile
+HISTSIZE=1000000
+SAVEHIST=1000000
+
+if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]
+then
+	PATH="$HOME/.local/bin":$HOME/bin:$PATH
+fi
+
+export PATH

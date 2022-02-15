@@ -1,0 +1,27 @@
+function zsh_add_plugin() {
+	PLUGIN_NAME=$(echo $1 | cut -d "/" -f 2)
+	if [ -d "$HOME/.config/zsh/plugins/$PLUGIN_NAME" ];
+	then 
+		source "$HOME/.config/zsh/plugins/$PLUGIN_NAME/$PLUGIN_NAME.plugin.zsh" || \
+		source "$HOME/.config/zsh/plugins/$PLUGIN_NAME/$PLUGIN_NAME.zsh"
+	else
+		git clone "https://github.com/$1.git" "$HOME/.config/zsh/plugins/$PLUGIN_NAME"
+	fi
+}
+
+function zsh_add_completion() {
+	PLUGIN_NAME=$(echo $1 | cut -d "/" -f 2)
+	if [ -d "$HOME/.config/zsh/plugins/$PLUGIN_NAME" ];
+	then 
+		completion_file_path=$(ls $HOME/.config/zsh/plugins/$PLUGIN_NAME/_*)
+		fpath+="$(dirname "${completion_file_path}")"
+		source "$HOME/.config/zsh/plugins/$PLUGIN_NAME/$PLUGIN_NAME.plugin.zsh"
+	else
+		git clone "https://github.com/$1.git" "$HOME/.config/zsh/plugins/$PLUGIN_NAME"
+		fpath+=$(ls $HOME/.config/zsh/plugins/$PLUGIN_NAME/_*)
+		[ -f $HOME/.zccompdump ] && $HOME/.zccompdump
+	fi
+
+	completion_file="$(basename "${completion_file_path}")"
+	if [ "$2" = true ] && compinit "${completion_file:1}"
+}
