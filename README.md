@@ -1,5 +1,6 @@
 # .zshrc on ~/
 
+```
 [ -f "$HOME/.config/zsh/z-rc" ] && source $HOME/.config/zsh/z-rc
 
 export EDITOR="nvim"
@@ -14,3 +15,4 @@ eval "`fnm env`"
 export PATH="$HOME/.pyenv/bin:$PATH"
 eval "$(pyenv init --path)"
 eval "$(pyenv virtualenv-init -)"
+```
