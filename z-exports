@@ -8,3 +8,4 @@ then
 fi
 
 export PATH
+locate --basename '\rg' &>/dev/null && export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
