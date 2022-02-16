@@ -1,9 +1,10 @@
 ZCONFIGPATH=$HOME/.config/zsh
 
 [ -f "$ZCONFIGPATH/z-functions" ] && source "$ZCONFIGPATH/z-functions"
-[ -f "$ZCONFIGPATH/z-exports" ] && source "$ZCONFIGPATH/z-exports"
-[ -f "$ZCONFIGPATH/z-alias" ] && source "$ZCONFIGPATH/z-alias"
-[ -f "$ZCONFIGPATH/z-prompt" ] && source "$ZCONFIGPATH/z-prompt"
+
+zsh_add_file "z-exports"
+zsh_add_file "z-alias"
+zsh_add_file "z-prompt"
 
 setopt appendhistory
 
@@ -26,14 +27,19 @@ zle -N down-line-or-beginning-search
 
 autoload -Uz colors && colors
 
+zsh_add_plugin "zsh-autosuggestions"
+zsh_add_plugin "zsh-syntax-highlighting"
 zsh_add_plugin "hlissner/zsh-autopair"
+
+[ -f /usr/share/zsh/site-functions/fzf ] && source /usr/share/zsh/site-functions/fzf
+[ -f /usr/share/fzf/shell/key-bindings.zsh ] && source /usr/share/fzf/shell/key-bindings.zsh
+[ -f $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh
 
 [ -f $ZCONFIGPATH/completion/_fnm ] && fpath+="$ZCONFIGPATH/completion/"
 compinit
 
-bindkey  "^[[H"   beginning-of-line
-bindkey  "^[[F"   end-of-line
-bindkey  "^[[3~"  delete-char
-
-source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+bindkey	"^[[H"		beginning-of-line
+bindkey	"^[[F"		end-of-line
+bindkey	"^[[3~"		delete-char
+bindkey	"^[[1;5C"	forward-word
+bindkey	"^[[1;5D"	backward-word
