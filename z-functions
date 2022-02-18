@@ -2,6 +2,10 @@ function zsh_add_shared_file() {
     [ -f "/usr/share/$1" ] && source "/usr/share/$1"
 }
 
+function zsh_add_shared_brew_file() {
+    [ -f "/opt/homebrew/share/$1" ] && source "/opt/homebrew/share/$1"
+}
+
 function zsh_add_file() {
     [ -f "$HOME/.config/zsh/$1" ] && source "$HOME/.config/zsh/$1"
 }
@@ -12,6 +16,10 @@ function zsh_add_plugin() {
 	then
 		zsh_add_shared_file "$PLUGIN_NAME/$PLUGIN_NAME.plugin.zsh" || \
                 zsh_add_shared_file "$PLUGIN_NAME/$PLUGIN_NAME.zsh"
+	elif [ -d "/opt/homebrew/share/$PLUGIN_NAME" ];
+	then
+		zsh_add_shared_brew_file "$PLUGIN_NAME/$PLUGIN_NAME.plugin.zsh" || \
+		zsh_add_shared_brew_file "$PLUGIN_NAME/$PLUGIN_NAME.zsh"
 	elif [ -d "$HOME/.config/zsh/plugins/$PLUGIN_NAME" ];
 	then 
 		zsh_add_file "plugins/$PLUGIN_NAME/$PLUGIN_NAME.plugin.zsh" || \
