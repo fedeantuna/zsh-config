@@ -4,7 +4,6 @@ ZCONFIGPATH=$HOME/.config/zsh
 
 zsh_add_file "z-exports"
 zsh_add_file "z-alias"
-zsh_add_file "z-prompt"
 
 setopt appendhistory
 

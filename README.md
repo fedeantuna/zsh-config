@@ -1,6 +1,6 @@
 # Config
 
-All my systems have fnm (https://github.com/Schniz/fnm) and pyenv (https://github.com/pyenv/pyenv) installed
+All my systems have fnm (https://github.com/Schniz/fnm) and pyenv (https://github.com/pyenv/pyenv) installed. For the shell prompt I use Oh My Posh (https://ohmyposh.dev/) with Mistro theme (https://gist.github.com/fedeantuna/d89fbeac16b3227fc53cc30c9539607f)
 
 ## Fedora
 
@@ -15,18 +15,24 @@ sudo dnf install fzf fd-find the_silver_searcher ripgrep ctags
 ```
 [ -f "$HOME/.config/zsh/z-rc" ] && source $HOME/.config/zsh/z-rc
 
-export EDITOR="nvim"
-export TERMINAL="alacritty"
-export BROWSER="brave"
+# alias
+alias upgrade-all='sudo dnf upgrade -y && sudo dnf autoremove -y && curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell && pyenv update && flatpak update -y && flatpak uninstall --unused -y'
 
 # fnm
-export PATH=$HOME/.fnm:$PATH
+export PATH="$HOME/.local/share/fnm:$PATH"
 eval "`fnm env`"
 
 # pyenv
-export PATH="$HOME/.pyenv/bin:$PATH"
-eval "$(pyenv init --path)"
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
+
+# oh-my-posh
+eval "$(oh-my-posh init zsh --config $HOME/.posh_themes/custom/mistro.omp.json)"
+
+# jetbrains
+export PATH="$HOME/.local/share/JetBrains/Toolbox/scripts:$PATH"
 ```
 
 ### ~/.fzf.zsh
@@ -41,34 +47,34 @@ eval "$(pyenv virtualenv-init -)"
 [ -f /usr/share/fzf/shell/key-bindings.zsh ] && source /usr/share/fzf/shell/key-bindings.zsh
 ```
 
-## Debian 9 (WSL)
+## OpenSUSE Tumbleweed (WSL)
 
 ### Dependencies
 
 ```
-sudo apt install silversearcher-ag exuberant-ctags
-
+sudo zypper install fzf fzf-zsh-completion fd fd-zsh-completion the_silver_searcher ripgrep ripgrep-zsh-completion ctags
 ```
-
-For fzf, follow https://github.com/junegunn/fzf#using-git
-For ripgrep, follow https://github.com/BurntSushi/ripgrep#installation
-For fd-find, follow https://github.com/sharkdp/fd#installation
 
 ### ~/.zshrc
 
 ```
 [ -f "$HOME/.config/zsh/z-rc" ] && source $HOME/.config/zsh/z-rc
 
-export EDITOR="nvim"
+# alias
+alias upgrade-all='sudo zypper cc -a && sudo zypper ref && sudo zypper dup --allow-vendor-change && curl -fsSL https://fnm.vercel.app/install ` bash -s -- --skip-shell && pyenv update'
 
 # fnm
-export PATH=$HOME/.fnm:$PATH
+export PATH="$HOME/.local/share/fnm:$PATH"
 eval "`fnm env`"
 
 # pyenv
-export PATH="$HOME/.pyenv/bin:$PATH"
-eval "$(pyenv init --path)"
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
+
+# oh-my-posh
+eval "$(oh-my-posh init zsh --config $HOME/.posh_themes/custom/mistro.omp.json)"
 
 # gpg
 export GPG_TTY=$(tty)
@@ -77,22 +83,16 @@ export GPG_TTY=$(tty)
 ### ~/.fzf.zsh
 
 ```
-# Setup fzf
-# ---------
-if [[ ! "$PATH" == *$HOME/.fzf/bin* ]]; then
-    export PATH="${PATH:+${PATH}:}$HOME/.fzf/bin"
-fi
-
 # Auto-completion
 # ---------------
-[[ $- == *i* ]] && source "$HOME/.fzf/shell/completion.zsh" 2> /dev/null
+[ -f /usr/share/zsh/site-functions/_fzf ] && source /usr/share/zsh/site-functions/_fzf
 
 # Key bindings
 # ------------
-source "$HOME/.fzf/shell/key-bindings.zsh"
+[ -f /etc/zsh_completion.d/fzf-key-bindings ] && source /etc/zsh_completion.d/fzf-key-bindings
 ```
 
-## MacOS
+## MacOS (OUTDATED)
 
 ### Dependencies (recommended)
 

@@ -2,9 +2,12 @@ HISTFILE=$HOME/.zsh_history
 HISTSIZE=1000000
 SAVEHIST=1000000
 
-if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]
-then
-	PATH="$HOME/.local/bin":$HOME/bin:$PATH
+if ! [[ "$PATH" =~ "$HOME/.local/bin" ]]; then
+	PATH="$HOME/.local/bin:$PATH"
+fi
+
+if ! [[ "$PATH" =~ "$HOME/bin" ]]; then
+	PATH="$HOME/bin:$PATH"
 fi
 
 export PATH
