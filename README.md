@@ -61,7 +61,7 @@ sudo zypper install fzf fzf-zsh-completion fd fd-zsh-completion the_silver_searc
 [ -f "$HOME/.config/zsh/z-rc" ] && source $HOME/.config/zsh/z-rc
 
 # alias
-alias upgrade-all='sudo zypper cc -a && sudo zypper ref && sudo zypper dup --allow-vendor-change && curl -fsSL https://fnm.vercel.app/install ` bash -s -- --skip-shell && pyenv update'
+alias upgrade-all='sudo zypper cc -a && sudo zypper ref && sudo zypper dup --allow-vendor-change && curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell && pyenv update'
 
 # fnm
 export PATH="$HOME/.local/share/fnm:$PATH"
