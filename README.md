@@ -1,43 +1,73 @@
 # Config
 
-All my systems have fnm (https://github.com/Schniz/fnm) and pyenv (https://github.com/pyenv/pyenv) installed. For the shell prompt I use Oh My Posh (https://ohmyposh.dev/) with Mistro theme (https://gist.github.com/fedeantuna/d89fbeac16b3227fc53cc30c9539607f)
-
 ## Fedora
 
-### Dependencies (recommended)
+### Dependencies
 
-```
+```zsh
 sudo dnf install fzf fd-find the_silver_searcher ripgrep ctags
+```
+
+### Nerd Font (FiraCode)
+
+```zsh
+curl -L https://github.com/ryanoasis/nerd-fonts/releases/latest/download/FiraCode.tar.xz > ~/Downloads/FiraCode.tar.xz
+mkdir -p .local/share/fonts/FiraCode
+tar -xJvf ~/Downloads/FiraCode.tar.xz -C ~/.local/share/fonts/FiraCode
+rm ~/Downloads/FiraCode.tar.xz
+```
+
+### Starship
+
+[Project Site](https://starship.rs/)
+
+```zsh
+mkdir -p ~/.local/bin
+curl -sS https://starship.rs/install.sh | sh -s -- --bin-dir ~/.local/bin
+starship preset bracketed-segments -o ~/.config/starship.toml
 ```
 
 ### ~/.zshrc
 
-```
+```zsh
 [ -f "$HOME/.config/zsh/z-rc" ] && source $HOME/.config/zsh/z-rc
 
+# ssh-agent
+if [ -z "$SSH_AUTH_SOCK" ]; then
+   # Check for a currently running instance of the agent
+   RUNNING_AGENT="`ps -ax | grep 'ssh-agent -s' | grep -v grep | wc -l | tr -d '[:space:]'`"
+   if [ "$RUNNING_AGENT" = "0" ]; then
+        # Launch a new instance of the agent
+        ssh-agent -s &> $HOME/.ssh/ssh-agent
+   fi
+   eval `cat $HOME/.ssh/ssh-agent`
+fi
+
 # alias
-alias upgrade-all='sudo dnf upgrade -y && sudo dnf autoremove -y && curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell && pyenv update && flatpak update -y && flatpak uninstall --unused -y'
+alias upgrade-all='sudo dnf upgrade -y && sudo dnf autoremove -y && flatpak update -y && flatpak uninstall --unused -y'
 
-# fnm
-export PATH="$HOME/.local/share/fnm:$PATH"
-eval "`fnm env`"
-
-# pyenv
-export PYENV_ROOT="$HOME/.pyenv"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
-
-# oh-my-posh
-eval "$(oh-my-posh init zsh --config $HOME/.posh_themes/custom/mistro.omp.json)"
+# brave
+export CHROME_EXECUTABLE="/usr/bin/brave-browser"
 
 # jetbrains
 export PATH="$HOME/.local/share/JetBrains/Toolbox/scripts:$PATH"
+
+# starship
+eval "$(starship init zsh)"
+```
+
+### ~/.zshrc (VFIO NVIDIA GPU)
+
+```zsh
+...
+
+alias nvidia-attach-host="sudo virsh nodedev-reattach pci_0000_01_00_0 && sudo virsh nodedev-reattach pci_0000_01_00_1 && sudo rmmod vfio_pci vfio_pci_core vfio_iommu_type1 && sudo modprobe -i nvidia_modeset nvidia_uvm nvidia"
+alias nvidia-attach-vfio="sudo rmmod nvidia_modeset nvidia_uvm nvidia && sudo modprobe -i vfio_pci vfio_pci_core vfio_iommu_type1 && sudo virsh nodedev-detach pci_0000_01_00_0 && sudo virsh nodedev-detach pci_0000_01_00_1"
 ```
 
 ### ~/.fzf.zsh
 
-```
+```zsh
 # Auto-completion
 # ---------------
 [ -f /usr/share/zsh/site-functions/fzf ] && source /usr/share/zsh/site-functions/fzf
@@ -51,30 +81,31 @@ export PATH="$HOME/.local/share/JetBrains/Toolbox/scripts:$PATH"
 
 ### Dependencies
 
-```
+```zsh
 sudo zypper install fzf fzf-zsh-completion fd fd-zsh-completion the_silver_searcher ripgrep ripgrep-zsh-completion ctags
 ```
 
 ### ~/.zshrc
 
-```
+```zsh
 [ -f "$HOME/.config/zsh/z-rc" ] && source $HOME/.config/zsh/z-rc
 
+# ssh-agent
+if [ -z "$SSH_AUTH_SOCK" ]; then
+   # Check for a currently running instance of the agent
+   RUNNING_AGENT="`ps -ax | grep 'ssh-agent -s' | grep -v grep | wc -l | tr -d '[:space:]'`"
+   if [ "$RUNNING_AGENT" = "0" ]; then
+        # Launch a new instance of the agent
+        ssh-agent -s &> $HOME/.ssh/ssh-agent
+   fi
+   eval `cat $HOME/.ssh/ssh-agent`
+fi
+
 # alias
-alias upgrade-all='sudo zypper cc -a && sudo zypper ref && sudo zypper dup --allow-vendor-change && curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell && pyenv update'
+alias upgrade-all='sudo zypper cc -a && sudo zypper ref && sudo zypper dup --allow-vendor-change && flatpak update -y && flatpak uninstall --unused -y'
 
-# fnm
-export PATH="$HOME/.local/share/fnm:$PATH"
-eval "`fnm env`"
-
-# pyenv
-export PYENV_ROOT="$HOME/.pyenv"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
-
-# oh-my-posh
-eval "$(oh-my-posh init zsh --config $HOME/.posh_themes/custom/mistro.omp.json)"
+# brave
+export CHROME_EXECUTABLE="/usr/bin/brave-browser"
 
 # gpg
 export GPG_TTY=$(tty)
@@ -82,7 +113,7 @@ export GPG_TTY=$(tty)
 
 ### ~/.fzf.zsh
 
-```
+```zsh
 # Auto-completion
 # ---------------
 [ -f /usr/share/zsh/site-functions/_fzf ] && source /usr/share/zsh/site-functions/_fzf
@@ -96,21 +127,22 @@ export GPG_TTY=$(tty)
 
 ### Dependencies (recommended)
 
-```
+```zsh
 brew install fzf fd the_silver_searcher ripgrep ctags
 ```
 
 ### ~/.zshrc
 
-```
+```zsh
 [ -f "$HOME/.config/zsh/z-rc" ] && source $HOME/.config/zsh/z-rc
 
-export EDITOR="nvim"
+# brave
+export CHROME_EXECUTABLE="/usr/bin/brave-browser"
 ```
 
 ### ~/.fzf.zsh
 
-```
+```zsh
 # Setup fzf
 # ---------
 if [[ ! "$PATH" == */opt/homebrew/opt/fzf/bin* ]]; then

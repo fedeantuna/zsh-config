@@ -22,8 +22,3 @@ alias free='free -m'
 alias psmem='ps auxf | sort -nr -k 4 | head -5'
 
 alias pscpu='ps auxf | sort -nr -k 3 | head -5'
-
-if [[ $OSTYPE == 'darwin'* ]]; then
-	alias updatedb='sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.locate.plist'
-	alias brew='env PATH="${PATH//$(pyenv root)\/shims:/}" brew'
-fi

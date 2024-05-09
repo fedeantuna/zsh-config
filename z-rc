@@ -33,7 +33,6 @@ zsh_add_plugin "hlissner/zsh-autopair"
 [ -f $HOME/.zshenv ] && source $HOME/.zshenv
 [ -f $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh
 
-[ -f $ZCONFIGPATH/completion/_fnm ] && fpath+="$ZCONFIGPATH/completion/"
 compinit
 
 bindkey	"^[[H"		beginning-of-line
