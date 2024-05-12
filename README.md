@@ -12,7 +12,7 @@ sudo dnf install fzf fd-find the_silver_searcher ripgrep ctags
 
 ```zsh
 curl -L https://github.com/ryanoasis/nerd-fonts/releases/latest/download/FiraCode.tar.xz > ~/Downloads/FiraCode.tar.xz
-mkdir -p .local/share/fonts/FiraCode
+mkdir -p ~/.local/share/fonts/FiraCode
 tar -xJvf ~/Downloads/FiraCode.tar.xz -C ~/.local/share/fonts/FiraCode
 rm ~/Downloads/FiraCode.tar.xz
 ```
