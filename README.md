@@ -43,6 +43,9 @@ if [[ -z "$SSH_AUTH_SOCK" ]]; then
    eval `cat $HOME/.ssh/ssh-agent`
 fi
 
+# appimages
+export PATH="$HOME/.local/appimages:$PATH"
+
 # alias
 alias upgrade-all='sudo dnf upgrade -y && sudo dnf autoremove -y && flatpak update -y && flatpak uninstall --unused -y'
 
