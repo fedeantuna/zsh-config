@@ -30,13 +30,13 @@ starship preset bracketed-segments -o ~/.config/starship.toml
 ### ~/.zshrc
 
 ```zsh
-[ -f "$HOME/.config/zsh/z-rc" ] && source $HOME/.config/zsh/z-rc
+[[ -f "$HOME/.config/zsh/z-rc" ]] && source $HOME/.config/zsh/z-rc
 
 # ssh-agent
-if [ -z "$SSH_AUTH_SOCK" ]; then
+if [[ -z "$SSH_AUTH_SOCK" ]]; then
    # Check for a currently running instance of the agent
    RUNNING_AGENT="`ps -ax | grep 'ssh-agent -s' | grep -v grep | wc -l | tr -d '[:space:]'`"
-   if [ "$RUNNING_AGENT" = "0" ]; then
+   if [[ "$RUNNING_AGENT" = "0" ]]; then
         # Launch a new instance of the agent
         ssh-agent -s &> $HOME/.ssh/ssh-agent
    fi
@@ -88,11 +88,11 @@ alias nvidia-attach-vfio="sudo rmmod nvidia_modeset nvidia_uvm nvidia && sudo mo
 ```zsh
 # Auto-completion
 # ---------------
-[ -f /usr/share/zsh/site-functions/fzf ] && source /usr/share/zsh/site-functions/fzf
+[[ -f /usr/share/zsh/site-functions/fzf ]] && source /usr/share/zsh/site-functions/fzf
 
 # Key bindings
 # ------------
-[ -f /usr/share/fzf/shell/key-bindings.zsh ] && source /usr/share/fzf/shell/key-bindings.zsh
+[[ -f /usr/share/fzf/shell/key-bindings.zsh ]] && source /usr/share/fzf/shell/key-bindings.zsh
 ```
 
 ## OpenSUSE Tumbleweed (WSL)
@@ -106,13 +106,13 @@ sudo zypper install fzf fzf-zsh-completion fd fd-zsh-completion the_silver_searc
 ### ~/.zshrc
 
 ```zsh
-[ -f "$HOME/.config/zsh/z-rc" ] && source $HOME/.config/zsh/z-rc
+[[ -f "$HOME/.config/zsh/z-rc" ]] && source $HOME/.config/zsh/z-rc
 
 # ssh-agent
-if [ -z "$SSH_AUTH_SOCK" ]; then
+if [[ -z "$SSH_AUTH_SOCK" ]]; then
    # Check for a currently running instance of the agent
    RUNNING_AGENT="`ps -ax | grep 'ssh-agent -s' | grep -v grep | wc -l | tr -d '[:space:]'`"
-   if [ "$RUNNING_AGENT" = "0" ]; then
+   if [[ "$RUNNING_AGENT" = "0" ]]; then
         # Launch a new instance of the agent
         ssh-agent -s &> $HOME/.ssh/ssh-agent
    fi
@@ -134,11 +134,11 @@ export GPG_TTY=$(tty)
 ```zsh
 # Auto-completion
 # ---------------
-[ -f /usr/share/zsh/site-functions/_fzf ] && source /usr/share/zsh/site-functions/_fzf
+[[ -f /usr/share/zsh/site-functions/_fzf ]] && source /usr/share/zsh/site-functions/_fzf
 
 # Key bindings
 # ------------
-[ -f /etc/zsh_completion.d/fzf-key-bindings ] && source /etc/zsh_completion.d/fzf-key-bindings
+[[ -f /etc/zsh_completion.d/fzf-key-bindings ]] && source /etc/zsh_completion.d/fzf-key-bindings
 ```
 
 ## MacOS (OUTDATED)
@@ -152,7 +152,7 @@ brew install fzf fd the_silver_searcher ripgrep ctags
 ### ~/.zshrc
 
 ```zsh
-[ -f "$HOME/.config/zsh/z-rc" ] && source $HOME/.config/zsh/z-rc
+[[ -f "$HOME/.config/zsh/z-rc" ]] && source $HOME/.config/zsh/z-rc
 
 # brave
 export CHROME_EXECUTABLE="/usr/bin/brave-browser"
