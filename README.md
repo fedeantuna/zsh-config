@@ -46,14 +46,32 @@ fi
 # alias
 alias upgrade-all='sudo dnf upgrade -y && sudo dnf autoremove -y && flatpak update -y && flatpak uninstall --unused -y'
 
+# starship
+eval "$(starship init zsh)"
+
 # brave
 export CHROME_EXECUTABLE="/usr/bin/brave-browser"
 
-# jetbrains
-export PATH="$HOME/.local/share/JetBrains/Toolbox/scripts:$PATH"
+# pyenv
+export PYENV_ROOT="$HOME/.pyenv"
+if [[ -d "$PYENV_ROOT" ]]; then
+	export PATH="$PYENV_ROOT/bin:$PATH"
+	eval "$(pyenv init -)"
+	eval "$(pyenv virtualenv-init -)"
+fi
 
-# starship
-eval "$(starship init zsh)"
+# fnm
+FNM_PATH="$HOME/.local/share/fnm"
+if [[ -d "$FNM_PATH" ]]; then
+	export PATH="/home/fantuna/.local/share/fnm:$PATH"
+	eval "$(fnm env)"
+fi
+
+# jetbrains
+JETBRAINS_TOOLBOX_PATH="$HOME/.local/share/JetBrains/Toolbox"
+[[ -d "$JETBRAINS_TOOLBOX_PATH/apps" ]] && export PATH="$JETBRAINS_TOOLBOX_PATH/apps:$PATH"
+[[ -d "$JETBRAINS_TOOLBOX_PATH/scripts" ]] && export PATH="$JETBRAINS_TOOLBOX_PATH/scripts:$PATH"
+
 ```
 
 ### ~/.zshrc (VFIO NVIDIA GPU)
