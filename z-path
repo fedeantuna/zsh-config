@@ -1,0 +1,37 @@
+# shellcheck shell=bash
+
+overwrite_chrome_executable() {
+  local chrome_executable
+  chrome_executable="$1"
+
+  export CHROME_EXECUTABLE="$chrome_executable"
+}
+
+try_add_path() {
+  local partial_path
+  partial_path="$1"
+
+  if [ -d "$partial_path" ]; then
+    export PATH="$partial_path:$PATH"
+    return 0
+  fi
+
+  return 1
+}
+
+try_add_local_bin_path() {
+  local partial_path
+  partial_path="$HOME/.local/bin"
+
+  try_add_path "$partial_path"
+  return $?
+}
+
+try_add_local_appimages_path() {
+  local partial_path
+  partial_path="$HOME/.local/appimages"
+
+  try_add_path "$partial_path"
+  return $?
+}
+

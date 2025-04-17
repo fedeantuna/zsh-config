@@ -1,0 +1,30 @@
+# shellcheck shell=bash
+
+set_grep_common_alias() {
+  alias egrep='egrep --color=auto'
+  alias fgrep='fgrep --color=auto'
+  alias grep='grep --color=auto'
+  alias xzegrep='xzegrep --color=auto'
+  alias xzfgrep='xzfgrep --color=auto'
+  alias xzgrep='xzgrep --color=auto'
+  alias zegrep='zegrep --color=auto'
+  alias zfgrep='zfgrep --color=auto'
+  alias zgrep='zgrep --color=auto'
+}
+
+set_ls_common_alias() {
+  alias ls='ls --color=auto'
+  alias ll='ls -lha --color=auto'
+  alias l.='ls -d .* --color=auto'
+}
+
+set_fileops_alias() {
+  alias cp='cp -i'
+  alias mv='mv -i'
+  alias rm='rm -i'
+}
+
+set_ps_alias() {
+  alias psmem='ps auxf | sort -nr -k 4 | head -5'
+  alias pscpu='ps auxf | sort -nr -k 3 | head -5'
+}

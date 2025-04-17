@@ -1,0 +1,15 @@
+# shellcheck shell=bash
+
+start_ssh_agent() {
+  if [ -z "$SSH_AUTH_SOCK" ]; then
+    local running_agent
+    running_agent="$(pgrep -f 'ssh-agent -s' | grep -cv grep | tr -d '[:space:]')"
+    if [ "$running_agent" = "0" ]; then
+      ssh-agent -s | grep -v "echo" &> "$HOME/.ssh/ssh-agent"
+    fi
+
+    local ssh_agent
+    ssh_agent=$(cat "$HOME/.ssh/ssh-agent")
+    eval "$ssh_agent"
+  fi
+}
