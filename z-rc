@@ -1,0 +1,71 @@
+# shellcheck shell=bash
+
+_set_common_zsh_config() {
+  setopt autocd extendedglob nomatch menucomplete
+  setopt interactive_comments
+  stty stop undef
+
+  unsetopt BEEP
+
+  autoload -Uz compinit
+  zstyle ':completion:*' menu select
+  zmodload zsh/complist
+  _comp_options+=(globdots)
+
+  autoload -U up-line-or-beginning-search
+  autoload -U down-line-or-beginning-search
+  zle -N up-line-or-beginning-search
+  zle -N down-line-or-beginning-search
+
+  autoload -Uz colors && colors
+}
+
+_set_common_zsh_binding_keys() {
+  bindkey	"^[[H"		beginning-of-line
+  bindkey	"^[[F"		end-of-line
+  bindkey	"^[[3~"		delete-char
+  bindkey	"^[[1;5C"	forward-word
+  bindkey	"^[[1;5D"	backward-word
+}
+
+initialize_zsh_config() {
+  local config_path
+  config_path="$HOME/.config/zsh"
+
+  # shellcheck source=/dev/null
+  source "$config_path/z-alias" || return 1
+  # shellcheck source=/dev/null
+  source "$config_path/z-history" || return 1
+  # shellcheck source=/dev/null
+  source "$config_path/z-path" || return 1
+  # shellcheck source=/dev/null
+  source "$config_path/z-plugins" || return 1
+  # shellcheck source=/dev/null
+  source "$config_path/z-ssh" || return 1
+
+  set_grep_common_alias
+  set_ls_common_alias
+  set_fileops_alias
+  set_ps_alias
+
+  set_common_history_settings
+
+  try_add_local_bin_path
+  try_add_local_appimages_path
+
+  try_install_plugin_from_github "zsh-users/zsh-autosuggestions"
+  try_install_plugin_from_github "zsh-users/zsh-syntax-highlighting"
+  try_install_plugin_from_github "hlissner/zsh-autopair"
+
+  try_source_plugin "zsh-users/zsh-autosuggestions"
+  try_source_plugin "zsh-users/zsh-syntax-highlighting"
+  try_source_plugin "hlissner/zsh-autopair"
+
+  start_ssh_agent
+
+  _set_common_zsh_config
+
+  compinit
+
+  _set_common_zsh_binding_keys
+}

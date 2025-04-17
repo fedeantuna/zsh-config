@@ -1,0 +1,63 @@
+# shellcheck shell=bash
+
+try_install_plugin_from_github() {
+  local github_repository
+  github_repository="$1"
+
+  local plugin_owner
+  plugin_owner=$(echo "$github_repository" | cut -d "/" -f 1)
+  local plugin_name
+  plugin_name=$(echo "$github_repository" | cut -d "/" -f 2)
+  local plugin_owner_path
+  plugin_owner_path="$HOME/.config/zsh/plugins/$plugin_owner"
+  local plugin_root_path
+  plugin_root_path="$plugin_owner_path/$plugin_name"
+
+  if [ -d "$plugin_root_path" ]; then
+    return 1
+  fi
+
+  if [ ! -d "$plugin_owner_path" ]; then
+    mkdir -p "$plugin_owner_path"
+  fi
+
+  git_url="https://github.com/$github_repository.git"
+  if git clone "$git_url" "$plugin_root_path"; then
+    return 0
+  fi
+
+  return 1
+}
+
+try_source_plugin() {
+  local github_repository
+  github_repository="$1"
+
+  local plugin_name
+  plugin_name=$(echo "$github_repository" | cut -d "/" -f 2)
+
+  local plugin_path
+  if [ -f "$HOME/.config/zsh/plugins/$github_repository/$plugin_name.plugin.zsh" ]; then
+    plugin_path="$HOME/.config/zsh/plugins/$github_repository/$plugin_name.plugin.zsh"
+  elif [ -f "$HOME/.config/zsh/plugins/$github_repository/$plugin_name.zsh" ]; then
+    plugin_path="$HOME/.config/zsh/plugins/$github_repository/$plugin_name.zsh"
+  elif [ -f "/usr/share/$plugin_name/$plugin_name.plugin.zsh" ]; then
+    plugin_path="/usr/share/$plugin_name/$plugin_name.plugin.zsh"
+  elif [ -f "/usr/share/$plugin_name/$plugin_name.zsh" ]; then
+    plugin_path="/usr/share/$plugin_name/$plugin_name.zsh"
+  else
+    return 1
+  fi
+
+  # shellcheck source=/dev/null
+  source "$plugin_path"
+
+  return 1
+}
+
+update_all_zsh_plugins() {
+  local plugins_path
+  plugins_path="$HOME/.config/zsh/plugins"
+
+  fd -t d --min-depth 2 --max-depth 2 --print0 . "$plugins_path" | xargs -0 -I {} zsh -c 'echo "Updating {}"; git -C "{}" pull'
+}
