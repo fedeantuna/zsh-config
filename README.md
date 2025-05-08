@@ -64,9 +64,31 @@ fi
 # jetbrains
 try_add_path "$HOME/.local/share/JetBrains/Toolbox/apps"
 try_add_path "$HOME/.local/share/JetBrains/Toolbox/scripts"
-
-# ssh (kde only)
-export SSH_ASKPASS=/usr/bin/ksshaskpass
-export SSH_ASKPASS_REQUIRE=prefer
 ```
 
+## KDE Wallet
+
+This assumes that a fresh install of the KDE Desktop option was used. Otherwise there might be some missing packages.
+
+### GPG
+
+```zsh
+mkdir -p "$HOME/.config/environment.d" && echo "PINENTRY_KDE_USE_WALLET=1" > "$HOME/.config/environment.d/10-gpg.conf" && echo "pinentry-program /usr/bin/pinentry-qt" >> "$HOME/.gnupg/gpg-agent.conf"
+```
+
+### SSH
+
+```zsh
+cat <<EOF > "$HOME/.config/environment.d/20-ssh.conf"
+SSH_ASKPASS=/usr/bin/ksshaskpass
+SSH_ASKPASS_REQUIRE=prefer
+EOF
+```
+
+```zsh
+cat <<EOF > "$HOME/.ssh/config"
+Host github.com
+  IdentityFile ~/.ssh/id_ed25519
+  AddKeysToAgent  yes
+EOF
+```
