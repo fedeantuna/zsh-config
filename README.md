@@ -44,8 +44,8 @@ initialize_zsh_config
 eval "$(starship init zsh)"
 
 # fzf
-try_add_path "/usr/share/zsh/site-functions/fzf"
-try_add_path "/usr/share/fzf/shell/key-bindings.zsh"
+try_source "/usr/share/zsh/site-functions/_fzf"
+try_source "/usr/share/fzf/shell/key-bindings.zsh"
 
 # alias
 alias upgrade-all='sudo dnf upgrade -y && sudo dnf autoremove -y && flatpak update -y && flatpak uninstall --unused -y && rustup update && curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell && update_all_zsh_plugins'
@@ -54,7 +54,7 @@ alias upgrade-all='sudo dnf upgrade -y && sudo dnf autoremove -y && flatpak upda
 overwrite_chrome_executable "/usr/bin/brave-browser"
 
 # rust
-try_add_path "$HOME/.cargo/env"
+try_source "$HOME/.cargo/env"
 
 # fnm
 if try_add_path "$HOME/.local/share/fnm"; then
@@ -64,5 +64,9 @@ fi
 # jetbrains
 try_add_path "$HOME/.local/share/JetBrains/Toolbox/apps"
 try_add_path "$HOME/.local/share/JetBrains/Toolbox/scripts"
+
+# ssh (kde only)
+export SSH_ASKPASS=/usr/bin/ksshaskpass
+export SSH_ASKPASS_REQUIRE=prefer
 ```
 

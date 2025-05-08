@@ -35,3 +35,12 @@ try_add_local_appimages_path() {
   return $?
 }
 
+try_source() {
+  local file
+  file="$1"
+
+  if [ -f "$file" ]; then
+    source "$file"
+  fi
+}
+
