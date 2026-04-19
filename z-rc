@@ -45,7 +45,6 @@ initialize_zsh_config() {
 
   set_grep_common_alias
   set_ls_common_alias
-  set_fileops_alias
   set_ps_alias
 
   set_common_history_settings

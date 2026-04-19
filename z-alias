@@ -18,12 +18,6 @@ set_ls_common_alias() {
   alias l.='ls -d .* --color=auto'
 }
 
-set_fileops_alias() {
-  alias cp='cp -i'
-  alias mv='mv -i'
-  alias rm='rm -i'
-}
-
 set_ps_alias() {
   alias psmem='ps auxf | sort -nr -k 4 | head -5'
   alias pscpu='ps auxf | sort -nr -k 3 | head -5'
